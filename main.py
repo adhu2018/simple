@@ -16,6 +16,7 @@ def move_file(path):
         _n = get_name(p.name)
         if _n:
             _d = _n.replace('_', '-').lower()
+            _d = _n.replace('.', '-')
             _d = Path().joinpath(_d)
             if _d.exists():
                 if _d.is_file():
