@@ -1,6 +1,8 @@
 from pathlib import Path
 import shutil
 
+root = Path(__file__).parent
+
 def get_name(name):
     _n = name.split('-')
     if len(_n)==1:
@@ -9,7 +11,7 @@ def get_name(name):
 
 def move_file(path):
     p = Path(path)
-    n_p = Path().joinpath(p.name)
+    n_p = root.joinpath(p.name)
     shutil.move(p, n_p)
     p = n_p
     if p.is_file():
@@ -17,7 +19,7 @@ def move_file(path):
         if _n:
             _d = _n.replace('_', '-').lower()
             _d = _d.replace('.', '-')
-            _d = Path().joinpath(_d)
+            _d = root.joinpath(_d)
             if _d.exists():
                 if _d.is_file():
                     print(_d,"is file.")
@@ -44,7 +46,7 @@ def _make_index(dir, name):
     return rf
 
 def make_index():
-    dl = list(Path().glob('**/'))
+    dl = list(root.glob('**/'))
     dl1 = []
     for d in dl:
         fl1 = list(d.glob('*.whl'))
@@ -53,11 +55,11 @@ def make_index():
         if fl1:
             _make_index(d, fl1)
             dl1.append(d)
-    _make_index(Path().cwd(), dl1)
+    _make_index(root, dl1)
 
 def main():
-    w = list(Path().glob('**/*.whl'))
-    g = list(Path().glob('**/*.gz'))
+    w = list(root.glob('**/*.whl'))
+    g = list(root.glob('**/*.gz'))
     w.extend(g)
     for i in w:
         move_file(i)
